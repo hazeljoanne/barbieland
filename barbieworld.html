@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbie World</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="barbie-world">
+
+    <img id="selected-character" class="selected-character" alt="Your Character" onclick="goToWorldEnter()"">
+
+    <img src="img/barbie2ndpage.png" alt="Barbie World" class="main-image">
+
+    <script>
+        // Get the saved character from localStorage
+        const character = localStorage.getItem("selectedCharacter");
+
+        console.log("Character loaded:", character); // Debugging log
+
+        if (character) {
+            document.getElementById("selected-character").src = "img/" + character;
+        } else {
+            document.getElementById("selected-character").style.display = "none"; // Hide if none is selected
+        }
+
+        function goToWorldEnter() {
+            window.location.href = "worldenter.html";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Your Character</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="character-page">
+
+    <div class="character-container">
+        <img src="img/optionbupdated.png" alt="Character 1" class="character" id="char1" onclick="selectCharacter('optionbupdated.png')">
+        <img src="img/diversa.png" alt="Character 2" class="character" id="char2" onclick="selectCharacter('diversa.png')">
+        <img src="img/bruneetta.png" alt="Character 3" class="character" id="char3" onclick="selectCharacter('bruneetta.png')">
+        <img src="img/blonde.png" alt="Character 4" class="character" id="char4" onclick="selectCharacter('blonde.png')">
+        <img src="img/lati2.png" alt="Character 5" class="character" id="char5" onclick="selectCharacter('lati2.png')">
+    </div>
+
+    <script>
+        function selectCharacter(character) {
+            console.log("Character selected:", character); // Debugging log
+            localStorage.setItem("selectedCharacter", character); // Save choice
+            window.location.href = "barbieworld.html"; // Go to next page
+        }
+    </script>
+
+</body>
+</html>

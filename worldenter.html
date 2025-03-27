@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Barbie World</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="world-enter">
+
+    <!-- The character appears in the middle -->
+    <div class="character-container">
+    <img id="enter-character" class="enter-character" alt="Your Character">
+    <img src="img/evilcharacter.png" id="friend-character" class="friend-character hidden" alt="Friend Character">
+
+    <!-- Chat Bubble (Initially Hidden) -->
+    <div id="chat-bubble" class="chat-bubble hidden">
+        <p>Do you want to be my friend?</p>
+    </div>
+
+    <!-- Yes Button (Initially Hidden) -->
+    <button id="yes-button" class="yes-button hidden">Yes</button>
+
+    <img src="img/barbie3rdpg.png" alt="Barbie World" class="main-image">
+
+    <!-- Chat Bubble -->
+    <div id="chat-bubble" class="chat-bubble hidden">
+        <p>Do you want to be my friend?</p>
+    </div>
+
+    <!-- Yes Button -->
+    <button id="yes-button" class="yes-button hidden">Yes</button>
+
+    <!-- Chat Box (Initially Hidden) -->
+    <div id="chat-box" class="chat-box hidden">
+        <div id="chat-messages">
+        <div class="message friend-message">Hey! I love your avatar 😍 You seem really cool.</div>
+        <button id="reply-thank-you" class="chat-option">Thank you!</button>
+    </div>
+
+    <!-- Warning Sign -->
+    <div id="warning" class="warning hidden">
+        1 IN 5 CHILDREN WHO USE THE INTERNET HAVE BEEN SEXUALLY SOLICITED ONLINE.
+    </div>
+
+    <script>
+        // Get the selected character from localStorage
+        const character = localStorage.getItem("selectedCharacter");
+
+        if (character) {
+            document.getElementById("enter-character").src = "img/" + character;
+        } else {
+            document.getElementById("enter-character").style.display = "none";
+        }
+
+         // Delay showing the second character
+         setTimeout(() => {
+            document.getElementById("friend-character").classList.remove("hidden");
+        }, 1500); // 2 seconds delay
+
+         // Show chat bubble after 2 seconds
+         setTimeout(() => {
+            document.getElementById("chat-bubble").classList.add("show");
+        }, 3000);
+
+        // Show Yes button after 3 seconds
+        setTimeout(() => {
+            document.getElementById("yes-button").classList.add("show");
+        }, 5000);
+
+        document.getElementById("yes-button").addEventListener("click", function () {
+            document.getElementById("chat-box").classList.remove("hidden");
+        });
+
+        document.getElementById("reply-thank-you").addEventListener("click", function () {
+            document.getElementById("chat-messages").innerHTML += `
+                <div class="message user-message">Thank you!</div>
+                <div class="message friend-message">I bet you’re really cool in real life too. Do you have a picture? 😊</div>
+                <button class="chat-option" id="send-pic">Yes! Here's my pic</button>
+                <button class="chat-option" id="no-pic">I don’t share personal photos online</button>
+            `;
+
+            document.getElementById("reply-thank-you").remove();
+
+            setTimeout(() => {
+                document.getElementById("send-pic").addEventListener("click", showWarning);
+                document.getElementById("no-pic").addEventListener("click", function () {
+                    document.getElementById("chat-messages").innerHTML += `
+                        <div class="message user-message">I don’t share personal photos online</div>
+                        <div class="message friend-message">That’s okay! We should talk on IG so you can see who I am. What’s your @?</div>
+                        <div class="message user-message">@mochiprincess</div>
+                    `;
+
+                    setTimeout(showWarning, 4000);
+                });
+            }, 800);
+        });
+
+        function showWarning() {
+            document.getElementById("warning").classList.remove("hidden");
+        }
+
+    </script>
+
+</body>
+</html>
