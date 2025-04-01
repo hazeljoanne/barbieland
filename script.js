@@ -8,3 +8,4 @@ function goToPage(pageId) {
 function selectCharacter(character) {
     alert(`You selected ${character}!`);
 }
+

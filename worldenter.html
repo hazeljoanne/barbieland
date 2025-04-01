@@ -8,10 +8,13 @@
 </head>
 <body class="world-enter">
 
+    
+
     <!-- The character appears in the middle -->
     <div class="character-container">
     <img id="enter-character" class="enter-character" alt="Your Character">
     <img src="img/evilcharacter.png" id="friend-character" class="friend-character hidden" alt="Friend Character">
+    </div>
 
     <!-- Chat Bubble (Initially Hidden) -->
     <div id="chat-bubble" class="chat-bubble hidden">
@@ -39,68 +42,133 @@
     </div>
 
     <!-- Warning Sign -->
+    
     <div id="warning" class="warning hidden">
         1 IN 5 CHILDREN WHO USE THE INTERNET HAVE BEEN SEXUALLY SOLICITED ONLINE.
     </div>
 
+
     <script>
-        // Get the selected character from localStorage
-        const character = localStorage.getItem("selectedCharacter");
+        document.addEventListener("DOMContentLoaded", function () {
+    // Get the selected character from localStorage
+    const character = localStorage.getItem("selectedCharacter");
 
-        if (character) {
-            document.getElementById("enter-character").src = "img/" + character;
-        } else {
-            document.getElementById("enter-character").style.display = "none";
-        }
+    if (character) {
+        document.getElementById("enter-character").src = "img/" + character;
+    } else {
+        document.getElementById("enter-character").style.display = "none";
+    }
 
-         // Delay showing the second character
-         setTimeout(() => {
-            document.getElementById("friend-character").classList.remove("hidden");
-        }, 1500); // 2 seconds delay
+    // Delay showing the second character
+    setTimeout(() => {
+        document.getElementById("friend-character").classList.remove("hidden");
+    }, 1500);
 
-         // Show chat bubble after 2 seconds
-         setTimeout(() => {
-            document.getElementById("chat-bubble").classList.add("show");
-        }, 3000);
+    // Show chat bubble after 3 seconds
+    setTimeout(() => {
+        document.getElementById("chat-bubble").classList.add("show");
+    }, 3000);
 
-        // Show Yes button after 3 seconds
+    // Show Yes button after 5 seconds
+    setTimeout(() => {
+        document.getElementById("yes-button").classList.add("show");
+    }, 5000);
+
+    document.getElementById("yes-button").addEventListener("click", function () {
+        document.getElementById("chat-box").classList.remove("hidden");
+    });
+
+    document.getElementById("reply-thank-you").addEventListener("click", function () {
+        document.getElementById("chat-messages").innerHTML += `
+            <div class="message user-message">Thank you!</div>
+            <div class="message friend-message">I bet you’re really cool in real life too. Do you have a picture? 😊</div>
+            <button class="chat-option" id="send-pic">Yes! Here's my pic</button>
+            <button class="chat-option" id="no-pic">I don’t share personal photos online</button>
+        `;
+
+        document.getElementById("reply-thank-you").remove();
+
         setTimeout(() => {
-            document.getElementById("yes-button").classList.add("show");
-        }, 5000);
+            document.getElementById("send-pic").addEventListener("click", showWarning);
+            document.getElementById("no-pic").addEventListener("click", function () {
+                document.getElementById("chat-messages").innerHTML += `
+                    <div class="message user-message">I don’t share personal photos online</div>
+                    <div class="message friend-message">That’s okay! We should talk on IG so you can see who I am. What’s your @?</div>
+                    <div class="message user-message">@mochiprincess</div>
+                `;
 
-        document.getElementById("yes-button").addEventListener("click", function () {
-            document.getElementById("chat-box").classList.remove("hidden");
-        });
+                setTimeout(showWarning, 4000);
+            });
+        }, 800);
+    });
 
-        document.getElementById("reply-thank-you").addEventListener("click", function () {
-            document.getElementById("chat-messages").innerHTML += `
-                <div class="message user-message">Thank you!</div>
-                <div class="message friend-message">I bet you’re really cool in real life too. Do you have a picture? 😊</div>
-                <button class="chat-option" id="send-pic">Yes! Here's my pic</button>
-                <button class="chat-option" id="no-pic">I don’t share personal photos online</button>
-            `;
+    function showWarning() {
+        let warningBox = document.getElementById("warning");
+        warningBox.classList.remove("hidden");
 
-            document.getElementById("reply-thank-you").remove();
+        
 
-            setTimeout(() => {
-                document.getElementById("send-pic").addEventListener("click", showWarning);
-                document.getElementById("no-pic").addEventListener("click", function () {
-                    document.getElementById("chat-messages").innerHTML += `
-                        <div class="message user-message">I don’t share personal photos online</div>
-                        <div class="message friend-message">That’s okay! We should talk on IG so you can see who I am. What’s your @?</div>
-                        <div class="message user-message">@mochiprincess</div>
-                    `;
+        // Make the warning box clickable
+        warningBox.addEventListener("click", createGlitchImages);
+    }
 
-                    setTimeout(showWarning, 4000);
-                });
-            }, 800);
-        });
+    function createGlitchImages() {
+        let warningBox = document.getElementById("warning");
+        let rect = warningBox.getBoundingClientRect(); // Get warning box position
 
-        function showWarning() {
-            document.getElementById("warning").classList.remove("hidden");
+        let images = [
+            "img/childlight_infographic-1024x576.webp",
+            "img/children.gif",
+            "img/LuringGraph_en.a7a78f9efcb3.jpg",
+            "img/maxresdefault.jpg",
+            "img/online-safety-research-stats.png",
+            "img/safeguarding.jpg",
+            "img/child1.jpg",
+            "img/child2.png",
+            "img/child3.jpg",
+            "img/child4.jpg",
+            "img/child5.jpg",
+            "img/child6.jpg"
+        ]; // Your glitch images
+
+        let screenWidth = window.innerWidth;  // Get screen width
+    let screenHeight = window.innerHeight; // Get screen height
+    let numCols = 5; // Adjust based on how tightly you want them packed
+    let numRows = 4; 
+
+    let imgWidth = screenWidth / numCols;  
+    let imgHeight = screenHeight / numRows;
+
+    for (let row = 0; row < numRows; row++) {
+        for (let col = 0; col < numCols; col++) {
+            let img = document.createElement("img");
+            img.src = images[Math.floor(Math.random() * images.length)]; // Random image
+            img.classList.add("glitch-image");
+
+            img.style.width = `${imgWidth}px`;
+            img.style.height = `${imgHeight}px`;
+            img.style.position = "absolute";
+            img.style.top = `${row * imgHeight}px`;
+            img.style.left = `${col * imgWidth}px`;
+            img.style.zIndex = "9999"; // Ensures it's on top
+            img.style.objectFit = "cover"; // Ensures no gaps
+
+            document.body.appendChild(img);
         }
+    }
+
+
+        // Remove the click event after first click to avoid spamming
+        warningBox.removeEventListener("click", createGlitchImages);
+    }
+});
+
+
 
     </script>
+
+
+
 
 </body>
 </html>
